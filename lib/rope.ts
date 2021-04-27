@@ -164,22 +164,20 @@ export function splitAt(
     const parent = path[i + 1];
 
     if (i == 0) {
+      //special case for the leaf node
       noOfLettersOrphaned += parent.right.totalSize();
       orphans.push(parent.right);
       parent.right = null;
-      //TODO update weights
-    } else if (parent.right === child) {
-      //TODO updated weights
-    } else if (parent.left === child && parent.right) {
-      noOfLettersOrphaned += parent.right.totalSize();
-      orphans.push(parent.right);
-      //TODO update weights
-      parent.right = null;
-    }
-    console.log("orphaned letters: ", noOfLettersOrphaned);
-  }
+    } else if (parent.left === child) {
+      parent.size -= noOfLettersOrphaned;
 
-  //did you go left or right on your way up, if you went right does right have a right child if so orphan the right child
+      if (parent.right) {
+        noOfLettersOrphaned += parent.right.totalSize();
+        orphans.push(parent.right);
+        parent.right = null;
+      }
+    }
+  }
 
   console.log(JSON.stringify(path));
   console.log(JSON.stringify(orphans));
