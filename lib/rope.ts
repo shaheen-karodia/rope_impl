@@ -152,10 +152,11 @@ export function splitAt(
     leaf.text = null;
     leaf.size = left.size;
 
-    /**TODO reassign the end of the path*/
+    //reassign a new leaf to the end of the path
+    path.unshift(right);
   }
 
-  console.log("leaf node", JSON.stringify(path[0]));
+  console.log("leaf node", JSON.stringify(path));
 
   return { left: null, right: null };
 }
