@@ -112,8 +112,6 @@ export function splitAt(
   rope: Rope,
   position: number
 ): { left: Rope; right: Rope } {
-  const initialPosition = position;
-
   const splitPointEnum = {
     SPLIT_POINT_END: 0,
     SPLIT_POINT_MIDDLE: 1,
@@ -132,7 +130,6 @@ export function splitAt(
       rope = rope.left;
     } else {
       //At leaf determine if we are at end of rope or beginning of rope
-
       const { SPLIT_POINT_END, SPLIT_POINT_MIDDLE } = splitPointEnum;
       splitPointType = position === 0 ? SPLIT_POINT_END : SPLIT_POINT_MIDDLE;
 
@@ -140,15 +137,25 @@ export function splitAt(
     }
   }
 
-  //what split point type is it
-  switch (splitPointType) {
-    case splitPointEnum.SPLIT_POINT_END:
-      console.log(`${initialPosition} split point end`);
-      break;
-    case splitPointEnum.SPLIT_POINT_MIDDLE:
-      console.log(`${initialPosition} split point middle `);
-      break;
+  //reduce SPLIT_POINT_MIDDLE CASE to SPLIT POINT END CASE
+  if (splitPointType === splitPointEnum.SPLIT_POINT_MIDDLE) {
+    const leaf = path[0];
+
+    const leftText = leaf.text.slice(0, position);
+    const rightText = leaf.text.slice(position);
+
+    const left = new Rope(leftText);
+    const right = new Rope(rightText);
+
+    leaf.left = left;
+    leaf.right = right;
+    leaf.text = null;
+    leaf.size = left.size;
+
+    /**TODO reassign the end of the path*/
   }
+
+  console.log("leaf node", JSON.stringify(path[0]));
 
   return { left: null, right: null };
 }
