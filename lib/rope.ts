@@ -158,22 +158,25 @@ export function splitAt(
 
   //traverse path from leaf to node updating weights and collecting right orphans that cover letters
   const orphans = [];
-
+  let noOfLettersOrphaned = 0;
   for (let i = 0; i < path.length - 1; i++) {
     const child = path[i];
     const parent = path[i + 1];
 
     if (i == 0) {
+      noOfLettersOrphaned += parent.right.totalSize();
       orphans.push(parent.right);
       parent.right = null;
       //TODO update weights
     } else if (parent.right === child) {
       //TODO updated weights
     } else if (parent.left === child && parent.right) {
+      noOfLettersOrphaned += parent.right.totalSize();
       orphans.push(parent.right);
       //TODO update weights
       parent.right = null;
     }
+    console.log("orphaned letters: ", noOfLettersOrphaned);
   }
 
   //did you go left or right on your way up, if you went right does right have a right child if so orphan the right child
