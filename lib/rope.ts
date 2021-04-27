@@ -108,6 +108,7 @@ export function append(rope: Rope, text: string): Rope {
   return rope;
 }
 
+/**SK Updated */
 export function splitAt(
   rope: Rope,
   position: number
@@ -179,10 +180,13 @@ export function splitAt(
     }
   }
 
-  console.log(JSON.stringify(path));
-  console.log(JSON.stringify(orphans));
+  //build up right branch from orphans
+  let right = orphans.shift();
+  while (orphans.length > 0) {
+    right = concat(right, orphans.shift());
+  }
 
-  return { left: null, right: null };
+  return { left: path.pop(), right: right };
 }
 
 /**SK Updated */

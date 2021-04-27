@@ -37,7 +37,10 @@ describe("rope basics", () => {
 
 // console.log(JSON.stringify(updated, null, 2));
 
-splitAt(simonRope, 11);
+const splits = splitAt(simonRope, 11);
+
+console.log(JSON.stringify(splits.left, null, 2));
+console.log(JSON.stringify(splits.right, null, 2));
 // splitAt(simonRope, 2);
 // splitAt(simonRope, 3);
 // splitAt(simonRope, 4);
