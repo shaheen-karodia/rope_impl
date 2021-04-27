@@ -37,7 +37,28 @@ describe("rope basics", () => {
 
 // console.log(JSON.stringify(updated, null, 2));
 
+splitAt(simonRope, 0);
+splitAt(simonRope, 1);
+splitAt(simonRope, 2);
+splitAt(simonRope, 3);
+splitAt(simonRope, 4);
+splitAt(simonRope, 5);
+splitAt(simonRope, 6);
+splitAt(simonRope, 7);
+splitAt(simonRope, 8);
+splitAt(simonRope, 9);
+splitAt(simonRope, 10);
+splitAt(simonRope, 11);
+splitAt(simonRope, 12);
+splitAt(simonRope, 13);
+splitAt(simonRope, 14);
 splitAt(simonRope, 15);
+splitAt(simonRope, 16);
+splitAt(simonRope, 17);
+splitAt(simonRope, 18);
+splitAt(simonRope, 19);
+splitAt(simonRope, 20);
+splitAt(simonRope, 21);
 
 // describe("insertion", () => {
 //   test("simple insertion", () =>
