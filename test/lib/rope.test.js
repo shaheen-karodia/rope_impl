@@ -37,7 +37,7 @@ describe("rope basics", () => {
 
 // console.log(JSON.stringify(updated, null, 2));
 
-splitAt(simonRope, 1);
+splitAt(simonRope, 11);
 // splitAt(simonRope, 2);
 // splitAt(simonRope, 3);
 // splitAt(simonRope, 4);

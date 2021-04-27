@@ -156,7 +156,30 @@ export function splitAt(
     path.unshift(right);
   }
 
-  console.log("leaf node", JSON.stringify(path));
+  //traverse path from leaf to node updating weights and collecting right orphans that cover letters
+  const orphans = [];
+
+  for (let i = 0; i < path.length - 1; i++) {
+    const child = path[i];
+    const parent = path[i + 1];
+
+    if (i == 0) {
+      orphans.push(parent.right);
+      parent.right = null;
+      //TODO update weights
+    } else if (parent.right === child) {
+      //TODO updated weights
+    } else if (parent.left === child && parent.right) {
+      orphans.push(parent.right);
+      //TODO update weights
+      parent.right = null;
+    }
+  }
+
+  //did you go left or right on your way up, if you went right does right have a right child if so orphan the right child
+
+  console.log(JSON.stringify(path));
+  console.log(JSON.stringify(orphans));
 
   return { left: null, right: null };
 }
