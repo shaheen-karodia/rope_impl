@@ -113,6 +113,11 @@ export function splitAt(
   rope: Rope,
   position: number
 ): { left: Rope; right: Rope } {
+  //Special case: Spliting at index 0
+  if (position == 0) {
+    return { left: new Rope(""), right: rope };
+  }
+
   const splitPointEnum = {
     SPLIT_POINT_END: 0,
     SPLIT_POINT_MIDDLE: 1,
@@ -200,14 +205,14 @@ export function concat(rope1: Rope, rope2: Rope) {
   return combined;
 }
 
-// export function deleteRange(rope: Rope, start: number, end: number): Rope {
-//   const ropeTuple1 = splitAt(rope, start);
-//   const ropeTuple2 = splitAt(ropeTuple1.right, start + end);
-//   return concat(ropeTuple1.left, ropeTuple2.right);
-// }
+export function deleteRange(rope: Rope, start: number, end: number): Rope {
+  const ropeTuple1 = splitAt(rope, start);
+  const ropeTuple2 = splitAt(ropeTuple1.right, end - start);
+  return concat(ropeTuple1.left, ropeTuple2.right);
+}
 
-// export function insert(rope: Rope, text: string, location: number): Rope {
-//   const ropeTuple = splitAt(rope, location);
-//   const updatedleft = concat(ropeTuple.left, new Rope(text));
-//   return concat(updatedleft, ropeTuple.right);
-// }
+export function insert(rope: Rope, text: string, location: number): Rope {
+  const ropeTuple = splitAt(rope, location);
+  const updatedleft = concat(ropeTuple.left, new Rope(text));
+  return concat(updatedleft, ropeTuple.right);
+}

@@ -12,7 +12,7 @@ import {
   splitAt,
 } from "../../lib/rope";
 
-import simonRope, { index } from "../../lib/simonRope";
+import createSimonRope from "../../lib/simonRope";
 
 /* 
   These tests are here as a starting point, they are not comprehensive
@@ -20,44 +20,57 @@ import simonRope, { index } from "../../lib/simonRope";
 describe("rope basics", () => {
   test("constructor", () =>
     expect(new Rope("test").toString()).toEqual("test"));
-  // test("append", () =>
-  //   expect(append(new Rope("test"), "123").toString()).toEqual("test123"));
-  // test("prepend", () =>
-  //   expect(prepend(new Rope("test"), "123").toString()).toEqual("123test"));
+  test("append", () =>
+    expect(append(new Rope("test"), "123").toString()).toEqual("test123"));
+  test("prepend", () =>
+    expect(prepend(new Rope("test"), "123").toString()).toEqual("123test"));
 });
 
-// console.log("/////////////");
-// console.log(simonRope.toStringDebug());
+describe("insertion", () => {
+  test("simple insertion", () =>
+    expect(insert(new Rope("test"), "123", 2).toString()).toEqual("te123st"));
+  test("ending insertion", () =>
+    expect(insert(new Rope("test"), "123", 4).toString()).toEqual("test123"));
+  test("beginning insertion", () =>
+    expect(insert(new Rope("test"), "123", 0).toString()).toEqual("123test"));
+});
 
-// const updated = concat(
-//   new Rope("Bart_"),
-//   concat(new Rope("yeet"), new Rope(simonRope))
-// );
-// console.log("updated", updated.toString());
+describe("deletion", () => {
+  test("simple deletion", () =>
+    expect(deleteRange(new Rope("test"), 1, 3).toString()).toEqual("tt"));
+  test("delete until end", () =>
+    expect(deleteRange(new Rope("test"), 2, 4).toString()).toEqual("te"));
+  test("delete beginning", () =>
+    expect(deleteRange(new Rope("test"), 0, 2).toString()).toEqual("st"));
+  test("delete then insert", () =>
+    expect(
+      insert(deleteRange(new Rope("test"), 1, 3), "abc", 2).toString()
+    ).toEqual("ttabc"));
+});
 
-// console.log(JSON.stringify(updated, null, 2));
-
-const splits = splitAt(simonRope, 11);
-
-console.log(JSON.stringify(splits.left, null, 2));
-console.log(JSON.stringify(splits.right, null, 2));
-// splitAt(simonRope, 2);
-// splitAt(simonRope, 3);
-// splitAt(simonRope, 4);
-
-// describe("insertion", () => {
-//   test("simple insertion", () =>
-//     expect(insert(new Rope("test"), "123", 2).toString()).toEqual("te123st"));
-//   // test("ending insertion", () => expect(insert(new Rope('test'), '123', 4).toString()).toEqual('test123'));
-//   // test("beginning insertion", () => expect(insert(new Rope('test'), '123', 0).toString()).toEqual('123test'));
-// });
-
-// describe("deletion", () => {
-//   test("simple deletion", () => expect(deleteRange(new Rope('test'), 1, 3).toString()).toEqual('tt'));
-//   test("delete until end", () => expect(deleteRange(new Rope('test'), 2, 4).toString()).toEqual('te'));
-//   test("delete beginning", () => expect(deleteRange(new Rope('test'), 0, 2).toString()).toEqual('st'));
-//   test("delete then insert", () => expect(insert(deleteRange(new Rope('test'), 1, 3), 'abc', 2).toString()).toEqual('ttabc'));
-// });
+console.log(insert(createSimonRope(), new Rope("test"), 0).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 1).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 2).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 3).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 4).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 5).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 6).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 7).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 8).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 9).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 10).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 11).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 12).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 13).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 14).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 15).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 16).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 17).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 18).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 19).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 20).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 21).toString());
+console.log(insert(createSimonRope(), new Rope("test"), 22).toString());
 
 // describe('Extra Credit: tree is rebalanced', () => {
 //   expect(rotateLeft(createRopeFromMap({
