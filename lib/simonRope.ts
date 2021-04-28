@@ -1,5 +1,7 @@
 import { Rope } from "./rope";
 
+/**function to return a new Rope for testing that is th
+ * e same as the exampl string on wikipedia */
 export default function createSimonRope() {
   const E = new Rope({
     text: "Hello_",

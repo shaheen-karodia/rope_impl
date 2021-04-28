@@ -4,7 +4,10 @@ export class Rope {
   left?: Rope;
   right?: Rope;
 
-  /**SK Updated: overloaded constructor allows me to debug*/
+  /**SK Updated: This method needs to be overloaded to allow
+   * for both leafs that have text and non leaf nodes,
+   * without non leaf nodes one cannot do any sort of tree manipulation
+   */
   constructor(param) {
     //leaf node: initial code
     if (typeof param === "string") {
@@ -19,7 +22,9 @@ export class Rope {
     }
   }
 
-  /**SK Updated */
+  /**SK Updated: In the intial method the size property was not being used correctly
+   * I updated this method with the algorithm in the wikipedia article
+   */
   characterAt(position: number) {
     if (this.size <= position && this.right) {
       return this.right.characterAt(position - this.size);
@@ -32,64 +37,27 @@ export class Rope {
     return this.text[position];
   }
 
-  // prints contents including showing the hierarchy
-  // it's not required for this function to work, it's just there to help with debugging
-  //
-  // e.g. if the  root node has ABC, the left node has DEF, and the right node has GHI,
-  // the output will look like:
-  // -DEF
-  // ABC
-  // -GHI
-  toStringDebug(indentLevel: number = 0): string {
-    const leftText = this.left ? this.left.toStringDebug(indentLevel + 1) : "";
-    const rightText = this.right
-      ? this.right.toStringDebug(indentLevel + 1)
-      : "";
-    return (
-      leftText + Array(indentLevel + 1).join("-") + this.text + "\n" + rightText
-    );
-  }
-
-  /**SK Updated method */
+  /**SK Updated method: The initial method treated all nodes as if they had text,
+   * Not all nodes are leaves therefore the center text needs to be conditional
+   */
   toString(): string {
-    const centerText = this.text ? this.text : ""; //TODO potential issues with falsey values
+    const centerText = this.text ? this.text : "";
     const leftText = this.left ? this.left.toString() : "";
     const rightText = this.right ? this.right.toString() : "";
     return leftText + centerText + rightText;
   }
 
-  /**SK Updated method  */
+  /**SK Updated method: initial method does not take into account ignoring recursing down
+   * the left branch given that its size is already stored
+   */
   totalSize(): number {
     const leftSize = this.size;
     const rightSize = this.right ? this.right.totalSize() : 0;
     return leftSize + rightSize;
   }
-
-  // Helper method which converts the rope into an associative array
-  //
-  // Only used for debugging, this has no functional purpose
-  toMap(): MapRepresentation {
-    const mapVersion: MapRepresentation = {
-      text: this.text,
-    };
-    if (this.right) mapVersion.right = this.right.toMap();
-    if (this.left) mapVersion.left = this.left.toMap();
-    return mapVersion;
-  }
 }
 
-type MapRepresentation = {
-  text: string;
-  left?: MapRepresentation;
-  right?: MapRepresentation;
-};
-export function createRopeFromMap(map: MapRepresentation): Rope {
-  const rope = new Rope(map.text);
-  if (map.left) rope.left = createRopeFromMap(map.left);
-  if (map.right) rope.right = createRopeFromMap(map.right);
-  return rope;
-}
-
+/**SK Comment: prepend is incorrect, the weights of non leaf nodes are not being updated */
 export function prepend(rope: Rope, text: string): Rope {
   if (rope.left) {
     prepend(rope.left, text);
@@ -109,10 +77,7 @@ export function append(rope: Rope, text: string): Rope {
 }
 
 /**SK Updated */
-export function splitAt(
-  rope: Rope,
-  position: number
-): { left: Rope; right: Rope } {
+function splitAt(rope: Rope, position: number): { left: Rope; right: Rope } {
   //Special case: Spliting at index 0
   if (position == 0) {
     return { left: new Rope(""), right: rope };
@@ -204,7 +169,7 @@ export function concat(rope1: Rope, rope2: Rope) {
 
   return combined;
 }
-
+/**SK Updated */
 export function deleteRange(rope: Rope, start: number, end: number): Rope {
   const ropeTuple1 = splitAt(rope, start);
   const ropeTuple2 = splitAt(ropeTuple1.right, end - start);
